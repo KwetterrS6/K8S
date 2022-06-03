@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kweets-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kweetservice
+  template:
+    metadata:
+      labels:
+        app: kweetservice
+    spec:
+      containers:
+        - name: kweetservice
+          image: gammastani/kweetservice:latest
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kweets-clusterip-srv
+spec:
+  type: ClusterIP
+  selector:
+    app: kweetservice
+  ports:
+  - name: kweetservice
+    protocol: TCP
+    port: 80
+    targetPort: 80 
